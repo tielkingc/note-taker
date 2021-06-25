@@ -1,3 +1,4 @@
+const Ids = require('ids');
 let noteTitle;
 let noteText;
 let saveNoteBtn;
@@ -67,9 +68,12 @@ const renderActiveNote = () => {
 };
 
 const handleNoteSave = () => {
+  const ids = new Ids();
+  const newID = ids.next();
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
+    id: newID
   };
   saveNote(newNote).then(() => {
     getAndRenderNotes();
