@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "common-js": "^0.3.8",
     "express": "^4.16.4",
     "ids": "^1.0.0"
-  }
+  },
+  "type": "commonjs"
 }
