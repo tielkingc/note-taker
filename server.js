@@ -12,6 +12,14 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/db'));
 
+function writeToFile(data) {
+    fs.writeFile('./db/db.json', JSON.stringify(data), err => {
+        if (err) {
+          console.error(err)
+          return;
+        }
+    })
+}
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'));
@@ -40,29 +48,19 @@ app.post('/api/notes', (req, res) => {
     
     console.log(oldNotes);
 
-    fs.writeFile('./db/db.json', JSON.stringify(oldNotes), function (err) {
-        if (err) {
-            console.log(err);
-        }
-        console.log('Note saved')
-    })
+    writeToFile(oldNotes);
+    document.location.reload(true)
 })
 
 app.delete('/api/notes/:id', (req,res) => {
-    // console.log(res)
     for (var i = 0; i < oldNotes.length; i++) {
-        console.log(oldNotes[i].id)
         if (oldNotes[i].id === req.params.id) {
             oldNotes.splice(i, 1);
         }
     }
 
-    fs.writeFile('./db/db.json', JSON.stringify(oldNotes), function (err) {
-        if (err) {
-            console.log(err);
-        }
-        console.log('Note deleted')
-    })
+    writeToFile(oldNotes);
+    document.location.reload(true)
 })
 
 app.listen(PORT, () => {
